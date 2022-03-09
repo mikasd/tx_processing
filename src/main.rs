@@ -153,7 +153,9 @@ fn handle_resolve(client_map: &mut HashMap<u16, ClientInfo>, record: Record) {
             if !current_client_info.locked {
                 let history = &current_client_info.history;
                 // this will sometimes find the transaction request for the dispute which might not have a value field.
-                let tx_to_resolve = &history.iter().find(|&r| r.tx == record.tx && r.tx_type != "dispute");
+                let tx_to_resolve = &history
+                    .iter()
+                    .find(|&r| r.tx == record.tx && r.tx_type != "dispute");
                 if let Some(tx) = tx_to_resolve {
                     let resolved_amount = tx.amount;
                     if let Some(amt) = resolved_amount {
