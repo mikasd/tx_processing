@@ -142,6 +142,7 @@ fn handle_chargeback(client_map: &mut HashMap<u16, ClientInfo>, record: Record) 
             }
         } else {
             //client has no recorded transactions
+            error!("Client has no transactions to chargeback on {:?}", record);
         }
     }
 }
@@ -218,11 +219,10 @@ fn handle_dispute(client_map: &mut HashMap<u16, ClientInfo>, record: Record) {
         } else {
             // no client id found w that info
             error!(
-                "Client ID: {:} not found, handle errors here {:?}",
+                "Client ID: {:} not found in client map, handle errors here {:?}",
                 client_id, &record
             );
         }
-    } else {
     }
 }
 
@@ -266,7 +266,6 @@ fn handle_deposit(client_map: &mut HashMap<u16, ClientInfo>, record: Record) {
             // insert value into client map to track client activity
             client_map.insert(*client_id, new_info);
         }
-    } else {
     }
 }
 
@@ -311,6 +310,5 @@ fn handle_widthdrawal(client_map: &mut HashMap<u16, ClientInfo>, record: Record)
             new_info.history.push(record.clone());
             client_map.insert(*client_id, new_info);
         }
-    } else {
     }
 }
